@@ -1,9 +1,9 @@
-import { Button } from '@mui/material';
+import { getClient } from '@/lib/gqlClient';
+import { searchMostStarredRepos } from '@/searchMostStarredRepos';
 
-export default function Home() {
-  return (
-    <>
-      <Button>Button</Button>
-    </>
-  );
+export default async function Home() {
+  const result = await getClient().query(searchMostStarredRepos, {});
+  console.log(result.data?.search.edges);
+
+  return <></>;
 }
