@@ -1,11 +1,12 @@
 import { graphql } from '../gql';
 
 export const searchMostStarredRepos = graphql(/* GraphQL */ `
-  query searchMostStarredRepos {
+  query searchMostStarredRepos($first: Int!, $after: String) {
     search(
       query: "language:JavaScript stars:>10000"
       type: REPOSITORY
-      first: 10
+      first: $first
+      after: $after
     ) {
       repositoryCount
       edges {
@@ -22,6 +23,10 @@ export const searchMostStarredRepos = graphql(/* GraphQL */ `
             updatedAt
           }
         }
+      }
+      pageInfo {
+        hasNextPage
+        endCursor
       }
     }
   }
