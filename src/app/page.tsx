@@ -1,9 +1,5 @@
-import { getClient } from '@/lib/gqlClient';
-import { searchMostStarredRepos } from '@/searchMostStarredRepos';
+import { Demo } from '@/components/Demo';
 
 export default async function Home() {
-  const result = await getClient().query(searchMostStarredRepos, {});
-  console.log(result.data?.search.edges);
-
-  return <></>;
+  return <Demo />;
 }
