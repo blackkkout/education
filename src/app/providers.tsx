@@ -25,6 +25,7 @@ export function Providers({ children }: { children: React.ReactNode }) {
         headers: {
           Authorization: `Bearer ${process.env.NEXT_PUBLIC_GITHUB_TOKEN}`,
         },
+        cache: 'no-store',
       },
       exchanges: [cacheExchange, ssr, fetchExchange],
       suspense: true,
