@@ -4,7 +4,7 @@ import Typography from '@mui/material/Typography';
 
 import { Demo } from '@/components/Demo';
 
-export default function Home() {
+export default function HomePage() {
   return (
     <Container>
       <Stack spacing={2}>
