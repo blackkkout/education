@@ -1,9 +1,16 @@
-import { getClient } from '@/lib/gqlClient';
-import { searchMostStarredRepos } from '@/searchMostStarredRepos';
+import Container from '@mui/material/Container';
+import Stack from '@mui/material/Stack';
+import Typography from '@mui/material/Typography';
 
-export default async function Home() {
-  const result = await getClient().query(searchMostStarredRepos, {});
-  console.log(result.data?.search.edges);
+import { Demo } from '@/components/Demo';
 
-  return <></>;
+export default function Home() {
+  return (
+    <Container>
+      <Stack spacing={2}>
+        <Typography variant="h4">Most starred repositories</Typography>
+        <Demo />
+      </Stack>
+    </Container>
+  );
 }
