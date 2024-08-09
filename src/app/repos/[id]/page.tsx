@@ -1,10 +1,10 @@
 'use client';
 
 import { getRepoById } from '@/api/getRepoById';
+import { useQuery } from '@urql/next';
 import Container from '@mui/material/Container';
 import Stack from '@mui/material/Stack';
 import Typography from '@mui/material/Typography';
-import { useQuery } from '@urql/next';
 import StarIcon from '@mui/icons-material/Star';
 
 import { isRepo } from '@/lib/isRepo';

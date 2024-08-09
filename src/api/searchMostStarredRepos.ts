@@ -18,6 +18,7 @@ export const searchMostStarredRepos = graphql(/* GraphQL */ `
               totalCount
             }
             updatedAt
+            forkCount
           }
         }
       }
