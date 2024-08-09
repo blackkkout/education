@@ -12,12 +12,9 @@ export const searchMostStarredRepos = graphql(/* GraphQL */ `
       edges {
         node {
           ... on Repository {
+            id
             name
-            descriptionHTML
             stargazers {
-              totalCount
-            }
-            forks {
               totalCount
             }
             updatedAt
