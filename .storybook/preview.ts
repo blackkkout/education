@@ -2,8 +2,11 @@ import type { Preview } from '@storybook/react';
 
 import { ThemeProvider, CssBaseline } from '@mui/material';
 import { withThemeFromJSXProvider } from '@storybook/addon-themes';
+import { initialize, mswLoader } from 'msw-storybook-addon';
 
 import { theme } from '../src/styled/theme';
+
+initialize();
 
 const preview: Preview = {
   parameters: {
@@ -16,6 +19,8 @@ const preview: Preview = {
       },
     },
   },
+
+  loaders: [mswLoader],
 
   decorators: [
     withThemeFromJSXProvider({

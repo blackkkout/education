@@ -8,7 +8,7 @@ import CircularProgress from '@mui/material/CircularProgress';
 
 import { searchMostStarredRepos } from '@/api/searchMostStarredRepos';
 import { isRepo } from '@/lib/isRepo';
-import { LinkCell } from './LinkCell';
+import { LinkCell } from '../LinkCell';
 
 const columns: GridColDef[] = [
   { field: 'name', headerName: 'Name', flex: 1, renderCell: LinkCell },
@@ -41,6 +41,8 @@ export function GridDemo() {
   if (!data) return <CircularProgress />;
 
   if (error) return null;
+
+  console.log(data);
 
   const rowsCount = Math.ceil(
     data.search.repositoryCount / paginationModel.pageSize,
