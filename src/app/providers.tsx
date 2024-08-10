@@ -9,9 +9,9 @@ import {
   UrqlProvider,
 } from '@urql/next';
 import { AppRouterCacheProvider } from '@mui/material-nextjs/v14-appRouter';
-import { createTheme, ThemeProvider } from '@mui/material';
+import { ThemeProvider } from '@mui/material';
 
-const theme = createTheme();
+import { theme } from '../styled/theme';
 
 export function Providers({ children }: { children: React.ReactNode }) {
   const [client, ssr] = useMemo(() => {

@@ -11,7 +11,7 @@ import {
   Filler,
   Legend,
 } from 'chart.js';
-import { Line, ChartProps } from 'react-chartjs-2';
+import { Line } from 'react-chartjs-2';
 import { useQuery } from '@urql/next';
 import CircularProgress from '@mui/material/CircularProgress';
 
@@ -37,7 +37,7 @@ export const options = {
     },
     title: {
       display: true,
-      text: 'Start by repositories',
+      text: 'Stars by repositories',
     },
   },
 };
