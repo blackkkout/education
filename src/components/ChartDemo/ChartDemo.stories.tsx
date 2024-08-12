@@ -11,7 +11,7 @@ const mockData = {
     edges: [
       {
         node: {
-          id: 'MDEwOlJlcG9zaXRvcnkxMDI3MDI1MA==',
+          id: '1',
           name: 'react',
           stargazers: {
             totalCount: 20,
@@ -21,8 +21,7 @@ const mockData = {
       },
       {
         node: {
-          id: 'MDEwOlJlcG9zaXRvcnkxDJI3MDI1MA==',
-          forkCount: 34118,
+          id: '2',
           name: 'angular',
           stargazers: {
             totalCount: 15,
@@ -32,8 +31,7 @@ const mockData = {
       },
       {
         node: {
-          id: 'MDEwOlJlcG9zaXRvcnkxDJI3MDI1MA==',
-          forkCount: 34118,
+          id: '3',
           name: 'vue',
           stargazers: {
             totalCount: 10,

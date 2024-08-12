@@ -11,13 +11,23 @@ const mockData = {
     edges: [
       {
         node: {
-          id: 'MDEwOlJlcG9zaXRvcnkxMDI3MDI1MA==',
-          forkCount: 46118,
+          id: '1',
           name: 'react',
           stargazers: {
-            totalCount: 10,
+            totalCount: 20,
           },
-          updatedAt: '2024-08-10T09:39:57Z',
+          updatedAt: '2024-08-01T09:39:57Z',
+          __typename: 'Repository',
+        },
+      },
+      {
+        node: {
+          id: '2',
+          name: 'angular',
+          stargazers: {
+            totalCount: 15,
+          },
+          updatedAt: '2024-08-02T09:39:57Z',
           __typename: 'Repository',
         },
       },
