@@ -16,13 +16,11 @@ const columns: GridColDef[] = [
     field: 'updatedAt',
     headerName: 'Updated at',
     flex: 1,
-    renderCell: LinkCell,
   },
   {
     field: 'stargazersCount',
     headerName: 'Stars count',
     flex: 1,
-    renderCell: LinkCell,
   },
 ];
 

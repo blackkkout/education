@@ -4,7 +4,7 @@ import { UrqlProvider } from '@urql/next';
 import { useMemo } from 'react';
 import { graphql, HttpResponse } from 'msw';
 
-import { GridDemo } from './GridDemo';
+import { ChartDemo } from './ChartDemo';
 
 const mockData = {
   search: {
@@ -12,27 +12,42 @@ const mockData = {
       {
         node: {
           id: 'MDEwOlJlcG9zaXRvcnkxMDI3MDI1MA==',
-          forkCount: 46118,
           name: 'react',
+          stargazers: {
+            totalCount: 20,
+          },
+          __typename: 'Repository',
+        },
+      },
+      {
+        node: {
+          id: 'MDEwOlJlcG9zaXRvcnkxDJI3MDI1MA==',
+          forkCount: 34118,
+          name: 'angular',
+          stargazers: {
+            totalCount: 15,
+          },
+          __typename: 'Repository',
+        },
+      },
+      {
+        node: {
+          id: 'MDEwOlJlcG9zaXRvcnkxDJI3MDI1MA==',
+          forkCount: 34118,
+          name: 'vue',
           stargazers: {
             totalCount: 10,
           },
-          updatedAt: '2024-08-10T09:39:57Z',
           __typename: 'Repository',
         },
       },
     ],
-    pageInfo: {
-      hasNextPage: false,
-      endCursor: null,
-    },
-    repositoryCount: 1,
     __typename: 'SearchResultItemConnection',
   },
 };
 
-const meta: Meta<typeof GridDemo> = {
-  component: GridDemo,
+const meta: Meta<typeof ChartDemo> = {
+  component: ChartDemo,
   decorators: [
     (Story) => {
       const [client, ssr] = useMemo(() => {
@@ -57,7 +72,7 @@ const meta: Meta<typeof GridDemo> = {
 
 export default meta;
 
-type Story = StoryObj<typeof GridDemo>;
+type Story = StoryObj<typeof ChartDemo>;
 
 export const Success: Story = {
   parameters: {

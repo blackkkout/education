@@ -14,12 +14,6 @@ export const getRepoById = graphql(/* GraphQL */ `
         }
         stargazerCount
         forkCount
-        primaryLanguage {
-          name
-          color
-        }
-        createdAt
-        updatedAt
       }
     }
   }
