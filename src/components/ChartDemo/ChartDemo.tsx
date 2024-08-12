@@ -5,13 +5,13 @@ import {
   CategoryScale,
   LinearScale,
   PointElement,
-  LineElement,
   Title,
   Tooltip,
   Filler,
   Legend,
+  BarElement,
 } from 'chart.js';
-import { Line } from 'react-chartjs-2';
+import { Bar } from 'react-chartjs-2';
 import { useQuery } from '@urql/next';
 import CircularProgress from '@mui/material/CircularProgress';
 
@@ -22,25 +22,12 @@ Chart.register(
   CategoryScale,
   LinearScale,
   PointElement,
-  LineElement,
+  BarElement,
   Title,
   Tooltip,
   Filler,
   Legend,
 );
-
-export const options = {
-  responsive: true,
-  plugins: {
-    legend: {
-      position: 'top' as const,
-    },
-    title: {
-      display: true,
-      text: 'Stars by repositories',
-    },
-  },
-};
 
 export function ChartDemo() {
   const [{ data, error }] = useQuery({
@@ -53,9 +40,7 @@ export function ChartDemo() {
   if (error) return null;
 
   const repos = data.search.edges
-    ? data.search.edges.map((edge) => {
-        if (isRepo(edge?.node)) return edge.node;
-      })
+    ? data.search.edges.map((edge) => (isRepo(edge?.node) ? edge.node : null))
     : [];
 
   const labels = repos.map((repo) => repo?.name);
@@ -73,5 +58,5 @@ export function ChartDemo() {
     ],
   };
 
-  return chartData ? <Line options={options} data={chartData} /> : null;
+  return chartData ? <Bar data={chartData} /> : null;
 }
