@@ -1,5 +1,5 @@
-import { ChartDemo } from './ChartDemo';
-import { GridDemo } from './GridDemo';
+import { ChartDemo } from './ChartDemo/ChartDemo';
+import { GridDemo } from './GridDemo/GridDemo';
 
 export function Demo() {
   return (
