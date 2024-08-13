@@ -35,7 +35,11 @@ export function ChartDemo() {
   const theme = useTheme();
   const [{ data, error }] = useQuery({
     query: searchMostStarredRepos,
-    variables: { first: 10, after: null },
+    variables: {
+      query: 'language:JavaScript stars:>10000',
+      first: 10,
+      after: null,
+    },
   });
 
   if (!data)

@@ -4,8 +4,13 @@ import type { GridColDef, GridPaginationModel } from '@mui/x-data-grid';
 import { useState } from 'react';
 import { useQuery } from '@urql/next';
 import { DataGrid } from '@mui/x-data-grid';
+import { debounce } from '@mui/material';
+import InputAdornment from '@mui/material/InputAdornment';
+import SearchIcon from '@mui/icons-material/Search';
+import TextField from '@mui/material/TextField';
 import Skeleton from '@mui/material/Skeleton';
 import Alert from '@mui/material/Alert';
+import Stack from '@mui/material/Stack';
 
 import { searchMostStarredRepos } from '@/api/searchMostStarredRepos';
 import { isRepo } from '@/lib/isRepo';
@@ -26,6 +31,7 @@ const columns: GridColDef[] = [
 ];
 
 export function GridDemo() {
+  const [searchQuery, setSearchQuery] = useState('');
   const [paginationModel, setPaginationModel] = useState({
     page: 0,
     pageSize: 10,
@@ -34,12 +40,19 @@ export function GridDemo() {
 
   const [{ data, error, fetching }] = useQuery({
     query: searchMostStarredRepos,
-    variables: { first: paginationModel.pageSize, after },
+    variables: {
+      query:
+        searchQuery.length > 0
+          ? `sort:stars-desc ${searchQuery}`
+          : 'language:JavaScript stars:>10000',
+      first: paginationModel.pageSize,
+      after,
+    },
   });
 
   if (!data)
     return (
-      <div style={{ height: 631, width: '100%' }}>
+      <div style={{ height: 687, width: '100%' }}>
         <Skeleton variant="rectangular" height="100%" />
       </div>
     );
@@ -75,8 +88,22 @@ export function GridDemo() {
       })
     : [];
 
+  const setQueryDebounced = debounce(setSearchQuery, 500);
+
   return (
-    <>
+    <Stack spacing={2}>
+      <TextField
+        size="small"
+        label="Search..."
+        onChange={(e) => setQueryDebounced(e.target.value)}
+        InputProps={{
+          startAdornment: (
+            <InputAdornment position="start">
+              <SearchIcon />
+            </InputAdornment>
+          ),
+        }}
+      />
       <DataGrid
         rows={rows}
         columns={columns}
@@ -93,6 +120,6 @@ export function GridDemo() {
         paginationMode="server"
         onPaginationModelChange={handlePaginationModelChange}
       />
-    </>
+    </Stack>
   );
 }

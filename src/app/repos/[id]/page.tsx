@@ -25,27 +25,9 @@ export default function RepoPage({
 
   if (error) return <Alert severity="error">Error loading data.</Alert>;
 
-  if (!data || !isRepo(data.node))
-    return (
-      <Box>
-        <Stack spacing={1}>
-          <Skeleton variant="text" sx={{ fontSize: '3rem' }} />
-          <Stack direction="row" alignItems="center" spacing={1}>
-            <Skeleton
-              width={100}
-              variant="rounded"
-              sx={{ fontSize: '1.25rem' }}
-            />
-            <Skeleton
-              width={100}
-              variant="rounded"
-              sx={{ fontSize: '1.25rem' }}
-            />
-          </Stack>
-          <Skeleton variant="text" sx={{ fontSize: '1rem' }} />
-        </Stack>
-      </Box>
-    );
+  if (!data || !isRepo(data.node)) {
+    return <RepoSkeleton />;
+  }
 
   return (
     <>
@@ -74,5 +56,28 @@ export default function RepoPage({
         <Typography color="grey.700">{data.node.description}</Typography>
       </Stack>
     </>
+  );
+}
+
+function RepoSkeleton() {
+  return (
+    <Box>
+      <Stack spacing={1}>
+        <Skeleton variant="text" sx={{ fontSize: '3rem' }} />
+        <Stack direction="row" alignItems="center" spacing={1}>
+          <Skeleton
+            width={100}
+            variant="rounded"
+            sx={{ fontSize: '1.25rem' }}
+          />
+          <Skeleton
+            width={100}
+            variant="rounded"
+            sx={{ fontSize: '1.25rem' }}
+          />
+        </Stack>
+        <Skeleton variant="text" sx={{ fontSize: '1rem' }} />
+      </Stack>
+    </Box>
   );
 }
