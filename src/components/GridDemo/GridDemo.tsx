@@ -4,7 +4,8 @@ import type { GridColDef, GridPaginationModel } from '@mui/x-data-grid';
 import { useState } from 'react';
 import { useQuery } from '@urql/next';
 import { DataGrid } from '@mui/x-data-grid';
-import CircularProgress from '@mui/material/CircularProgress';
+import Skeleton from '@mui/material/Skeleton';
+import Alert from '@mui/material/Alert';
 
 import { searchMostStarredRepos } from '@/api/searchMostStarredRepos';
 import { isRepo } from '@/lib/isRepo';
@@ -36,11 +37,14 @@ export function GridDemo() {
     variables: { first: paginationModel.pageSize, after },
   });
 
-  if (!data) return <CircularProgress />;
+  if (!data)
+    return (
+      <div style={{ height: 631, width: '100%' }}>
+        <Skeleton variant="rectangular" height="100%" />
+      </div>
+    );
 
-  if (error) return null;
-
-  console.log(data);
+  if (error) return <Alert severity="error">Error loading data.</Alert>;
 
   const rowsCount = Math.ceil(
     data.search.repositoryCount / paginationModel.pageSize,
@@ -78,6 +82,12 @@ export function GridDemo() {
         columns={columns}
         rowCount={rowsCount}
         loading={fetching}
+        slotProps={{
+          loadingOverlay: {
+            variant: 'skeleton',
+            noRowsVariant: 'skeleton',
+          },
+        }}
         pageSizeOptions={[paginationModel.pageSize]}
         paginationModel={paginationModel}
         paginationMode="server"

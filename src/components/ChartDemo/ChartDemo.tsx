@@ -13,7 +13,9 @@ import {
 } from 'chart.js';
 import { Bar } from 'react-chartjs-2';
 import { useQuery } from '@urql/next';
-import CircularProgress from '@mui/material/CircularProgress';
+import { alpha, useTheme } from '@mui/material';
+import Alert from '@mui/material/Alert';
+import Skeleton from '@mui/material/Skeleton';
 
 import { searchMostStarredRepos } from '@/api/searchMostStarredRepos';
 import { isRepo } from '@/lib/isRepo';
@@ -30,14 +32,20 @@ Chart.register(
 );
 
 export function ChartDemo() {
+  const theme = useTheme();
   const [{ data, error }] = useQuery({
     query: searchMostStarredRepos,
     variables: { first: 10, after: null },
   });
 
-  if (!data) return <CircularProgress />;
+  if (!data)
+    return (
+      <div style={{ height: 576, width: '100%' }}>
+        <Skeleton variant="rectangular" height="100%" />
+      </div>
+    );
 
-  if (error) return null;
+  if (error) return <Alert severity="error">Error loading data.</Alert>;
 
   const repos = data.search.edges
     ? data.search.edges.map((edge) => (isRepo(edge?.node) ? edge.node : null))
@@ -49,11 +57,9 @@ export function ChartDemo() {
     labels,
     datasets: [
       {
-        fill: true,
         label: 'Repository stargazers',
         data: repos.map((repo) => repo?.stargazers.totalCount),
-        borderColor: 'rgb(53, 162, 235)',
-        backgroundColor: 'rgba(53, 162, 235, 0.5)',
+        backgroundColor: alpha(theme.palette.primary.dark, 0.75),
       },
     ],
   };

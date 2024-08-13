@@ -36,7 +36,7 @@ const mockData = {
       hasNextPage: false,
       endCursor: null,
     },
-    repositoryCount: 1,
+    repositoryCount: 2,
     __typename: 'SearchResultItemConnection',
   },
 };
