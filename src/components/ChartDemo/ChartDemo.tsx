@@ -35,7 +35,11 @@ export function ChartDemo() {
   const theme = useTheme();
   const [{ data, error }] = useQuery({
     query: searchMostStarredRepos,
-    variables: { first: 10, after: null },
+    variables: {
+      query: 'language:JavaScript stars:>10000',
+      first: 10,
+      after: null,
+    },
   });
 
   if (!data)
@@ -57,12 +61,12 @@ export function ChartDemo() {
     labels,
     datasets: [
       {
-        label: 'Repository stargazers',
+        label: 'Javascript repository stargazers',
         data: repos.map((repo) => repo?.stargazers.totalCount),
         backgroundColor: alpha(theme.palette.primary.dark, 0.75),
       },
     ],
   };
 
-  return chartData ? <Bar data={chartData} /> : null;
+  return <Bar data={chartData} />;
 }
