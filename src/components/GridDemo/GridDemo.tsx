@@ -5,6 +5,7 @@ import { useState } from 'react';
 import { useQuery } from '@urql/next';
 import { DataGrid } from '@mui/x-data-grid';
 import { debounce } from '@mui/material';
+import Grid from '@mui/material/Grid';
 import InputAdornment from '@mui/material/InputAdornment';
 import SearchIcon from '@mui/icons-material/Search';
 import TextField from '@mui/material/TextField';
@@ -15,6 +16,7 @@ import Stack from '@mui/material/Stack';
 import { searchMostStarredRepos } from '@/api/searchMostStarredRepos';
 import { isRepo } from '@/lib/isRepo';
 import { LinkCell } from '../LinkCell';
+import { LanguagePicker } from '../LanguagePicker';
 
 const columns: GridColDef[] = [
   { field: 'name', headerName: 'Name', flex: 1, renderCell: LinkCell },
@@ -32,19 +34,25 @@ const columns: GridColDef[] = [
 
 export function GridDemo() {
   const [searchQuery, setSearchQuery] = useState('');
+  const [languages, setLanguages] = useState<string[]>([]);
   const [paginationModel, setPaginationModel] = useState({
     page: 0,
     pageSize: 10,
   });
   const [after, setAfter] = useState<string | null>(null);
 
+  const languageFilter =
+    languages.length > 0
+      ? `${languages.map((language) => `language:${language}`).join(' ')}`
+      : '';
+
   const [{ data, error, fetching }] = useQuery({
     query: searchMostStarredRepos,
     variables: {
       query:
         searchQuery.length > 0
-          ? `sort:stars-desc ${searchQuery}`
-          : 'language:JavaScript stars:>10000',
+          ? `${languageFilter} sort:stars-desc ${searchQuery}`
+          : `${languageFilter} stars:>10000`,
       first: paginationModel.pageSize,
       after,
     },
@@ -90,20 +98,35 @@ export function GridDemo() {
 
   const setQueryDebounced = debounce(setSearchQuery, 500);
 
+  const handleLanguagesChange = (
+    _: React.SyntheticEvent,
+    newValue: string[],
+  ) => {
+    setLanguages(newValue);
+  };
+
   return (
     <Stack spacing={2}>
-      <TextField
-        size="small"
-        label="Search..."
-        onChange={(e) => setQueryDebounced(e.target.value)}
-        InputProps={{
-          startAdornment: (
-            <InputAdornment position="start">
-              <SearchIcon />
-            </InputAdornment>
-          ),
-        }}
-      />
+      <Grid container wrap="nowrap" gap={2}>
+        <Grid item md={6}>
+          <TextField
+            size="small"
+            label="Search..."
+            onChange={(e) => setQueryDebounced(e.target.value)}
+            fullWidth
+            InputProps={{
+              startAdornment: (
+                <InputAdornment position="start">
+                  <SearchIcon />
+                </InputAdornment>
+              ),
+            }}
+          />
+        </Grid>
+        <Grid item md={6}>
+          <LanguagePicker onChange={handleLanguagesChange} />
+        </Grid>
+      </Grid>
       <DataGrid
         rows={rows}
         columns={columns}
