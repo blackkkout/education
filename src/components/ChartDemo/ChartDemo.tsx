@@ -61,12 +61,12 @@ export function ChartDemo() {
     labels,
     datasets: [
       {
-        label: 'Repository stargazers',
+        label: 'Javascript repository stargazers',
         data: repos.map((repo) => repo?.stargazers.totalCount),
         backgroundColor: alpha(theme.palette.primary.dark, 0.75),
       },
     ],
   };
 
-  return chartData ? <Bar data={chartData} /> : null;
+  return <Bar data={chartData} />;
 }

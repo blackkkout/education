@@ -1,6 +1,7 @@
 'use client';
 
 import type { GridColDef, GridPaginationModel } from '@mui/x-data-grid';
+import type { SelectChangeEvent } from '@mui/material/Select';
 import { useState } from 'react';
 import { useQuery } from '@urql/next';
 import { DataGrid } from '@mui/x-data-grid';
@@ -17,6 +18,7 @@ import { searchMostStarredRepos } from '@/api/searchMostStarredRepos';
 import { isRepo } from '@/lib/isRepo';
 import { LinkCell } from '../LinkCell';
 import { LanguagePicker } from '../LanguagePicker';
+import { SortPicker } from '../SortPicker';
 
 const columns: GridColDef[] = [
   { field: 'name', headerName: 'Name', flex: 1, renderCell: LinkCell },
@@ -32,8 +34,31 @@ const columns: GridColDef[] = [
   },
 ];
 
+const sortOptions = {
+  BEST_MATCH: '',
+  STARS_DESC: 'stars-desc',
+  STARS_ASC: 'stars-asc',
+  FORKS_DESC: 'forks-desc',
+  FORKS_ASC: 'forks-asc',
+  UPDATED_DESC: 'updated-desc',
+  UPDATED_ASC: 'updated-asc',
+} as const;
+
+const sortLabels = {
+  [sortOptions.BEST_MATCH]: 'Best match',
+  [sortOptions.STARS_DESC]: 'Most stars',
+  [sortOptions.STARS_ASC]: 'Fewest stars',
+  [sortOptions.FORKS_DESC]: 'Most forks',
+  [sortOptions.FORKS_ASC]: 'Fewest forks',
+  [sortOptions.UPDATED_DESC]: 'Recently updated',
+  [sortOptions.UPDATED_ASC]: 'Last recently updated',
+} as const;
+
+type SortOption = (typeof sortOptions)[keyof typeof sortOptions];
+
 export function GridDemo() {
   const [searchQuery, setSearchQuery] = useState('');
+  const [sort, setSort] = useState<SortOption>(sortOptions.BEST_MATCH);
   const [languages, setLanguages] = useState<string[]>([]);
   const [paginationModel, setPaginationModel] = useState({
     page: 0,
@@ -49,10 +74,7 @@ export function GridDemo() {
   const [{ data, error, fetching }] = useQuery({
     query: searchMostStarredRepos,
     variables: {
-      query:
-        searchQuery.length > 0
-          ? `${languageFilter} sort:stars-desc ${searchQuery}`
-          : `${languageFilter} stars:>10000`,
+      query: `${languageFilter} sort:${sort} stars:>0 ${searchQuery}`,
       first: paginationModel.pageSize,
       after,
     },
@@ -90,8 +112,10 @@ export function GridDemo() {
           return {
             id: edge.node.id,
             name: edge.node.name,
-            updatedAt: new Date(edge.node.updatedAt).toLocaleDateString(),
-            stargazersCount: edge.node.stargazers.totalCount,
+            updatedAt: formatUpdatedAt(edge.node.updatedAt),
+            stargazersCount: formatStargazersCount(
+              edge.node.stargazers.totalCount,
+            ),
           };
       })
     : [];
@@ -105,10 +129,14 @@ export function GridDemo() {
     setLanguages(newValue);
   };
 
+  const handleSortChange = (event: SelectChangeEvent) => {
+    setSort(event.target.value as SortOption);
+  };
+
   return (
     <Stack spacing={2}>
       <Grid container wrap="nowrap" gap={2}>
-        <Grid item md={6}>
+        <Grid item md={4} xs={6}>
           <TextField
             size="small"
             label="Search..."
@@ -123,7 +151,14 @@ export function GridDemo() {
             }}
           />
         </Grid>
-        <Grid item md={6}>
+        <Grid item md={4} xs={6}>
+          <SortPicker
+            value={sort}
+            onChange={handleSortChange}
+            sortLabels={sortLabels}
+          />
+        </Grid>
+        <Grid item md={4} xs={6}>
           <LanguagePicker onChange={handleLanguagesChange} />
         </Grid>
       </Grid>
@@ -145,4 +180,16 @@ export function GridDemo() {
       />
     </Stack>
   );
+}
+
+function formatUpdatedAt(date: string) {
+  return new Date(date).toLocaleDateString('en-US', {
+    month: 'short',
+    day: 'numeric',
+    year: 'numeric',
+  });
+}
+
+function formatStargazersCount(count: number) {
+  return count.toLocaleString('en-US').replace(/,/g, ' ');
 }
