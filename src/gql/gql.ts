@@ -13,6 +13,7 @@ import { TypedDocumentNode as DocumentNode } from '@graphql-typed-document-node/
  * Therefore it is highly recommended to use the babel or swc plugin for production.
  */
 const documents = {
+    "\n  query getLanguagesByOwner($owner: String!, $name: String!) {\n    repository(owner: $owner, name: $name) {\n      languages(first: 10, orderBy: { field: SIZE, direction: DESC }) {\n        edges {\n          size\n          node {\n            name\n            color\n          }\n        }\n        totalSize\n      }\n    }\n  }\n": types.GetLanguagesByOwnerDocument,
     "\n  query getRepoById($id: ID!) {\n    node(id: $id) {\n      ... on Repository {\n        id\n        name\n        description\n        url\n        owner {\n          login\n          avatarUrl\n        }\n        stargazerCount\n        forkCount\n      }\n    }\n  }\n": types.GetRepoByIdDocument,
     "\n  query searchMostStarredRepos($query: String!, $first: Int!, $after: String) {\n    search(query: $query, type: REPOSITORY, first: $first, after: $after) {\n      repositoryCount\n      edges {\n        node {\n          ... on Repository {\n            id\n            name\n            stargazers {\n              totalCount\n            }\n            updatedAt\n          }\n        }\n      }\n      pageInfo {\n        hasNextPage\n        endCursor\n      }\n    }\n  }\n": types.SearchMostStarredReposDocument,
 };
@@ -31,6 +32,10 @@ const documents = {
  */
 export function graphql(source: string): unknown;
 
+/**
+ * The graphql function is used to parse GraphQL queries into a document that can be used by GraphQL clients.
+ */
+export function graphql(source: "\n  query getLanguagesByOwner($owner: String!, $name: String!) {\n    repository(owner: $owner, name: $name) {\n      languages(first: 10, orderBy: { field: SIZE, direction: DESC }) {\n        edges {\n          size\n          node {\n            name\n            color\n          }\n        }\n        totalSize\n      }\n    }\n  }\n"): (typeof documents)["\n  query getLanguagesByOwner($owner: String!, $name: String!) {\n    repository(owner: $owner, name: $name) {\n      languages(first: 10, orderBy: { field: SIZE, direction: DESC }) {\n        edges {\n          size\n          node {\n            name\n            color\n          }\n        }\n        totalSize\n      }\n    }\n  }\n"];
 /**
  * The graphql function is used to parse GraphQL queries into a document that can be used by GraphQL clients.
  */

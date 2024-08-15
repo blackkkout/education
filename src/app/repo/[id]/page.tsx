@@ -1,6 +1,7 @@
 'use client';
 
 import { useQuery } from '@urql/next';
+import { useRouter } from 'next/navigation';
 import Stack from '@mui/material/Stack';
 import Typography from '@mui/material/Typography';
 import StarIcon from '@mui/icons-material/Star';
@@ -9,15 +10,19 @@ import Chip from '@mui/material/Chip';
 import Alert from '@mui/material/Alert';
 import Skeleton from '@mui/material/Skeleton';
 import Box from '@mui/material/Box';
+import IconButton from '@mui/material/IconButton';
+import ArrowBackIcon from '@mui/icons-material/ArrowBack';
 
 import { getRepoById } from '@/api/getRepoById';
 import { isRepo } from '@/lib/isRepo';
+import { LanguageChart } from '@/components/LanguageChart';
 
 export default function RepoPage({
   params: { id },
 }: {
   params: { id: string };
 }) {
+  const router = useRouter();
   const [{ data, error }] = useQuery({
     query: getRepoById,
     variables: { id: decodeURIComponent(id) },
@@ -31,6 +36,11 @@ export default function RepoPage({
 
   return (
     <>
+      <Box>
+        <IconButton onClick={() => router.back()}>
+          <ArrowBackIcon />
+        </IconButton>
+      </Box>
       <Typography variant="h4" color="primary.main">
         {data.node.name}
       </Typography>
@@ -55,6 +65,7 @@ export default function RepoPage({
         </Stack>
         <Typography color="grey.700">{data.node.description}</Typography>
       </Stack>
+      <LanguageChart owner={data.node.owner.login} name={data.node.name} />
     </>
   );
 }
