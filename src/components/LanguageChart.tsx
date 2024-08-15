@@ -1,6 +1,7 @@
 import { useQuery } from '@urql/next';
 import { Pie } from 'react-chartjs-2';
 import Skeleton from '@mui/material/Skeleton';
+import Card from '@mui/material/Card';
 
 import { getLanguagesByOwner } from '@/api/getLanguagesByOwner';
 import {
@@ -42,22 +43,9 @@ export function LanguageChart({ owner, name }: LanguageChartProps) {
     ],
   } as ChartData<'pie'>;
 
-  const options = {
-    responsive: true,
-    plugins: {
-      legend: {
-        position: 'top',
-      },
-      title: {
-        display: true,
-        text: 'Repository Language Breakdown',
-      },
-    },
-  } as ChartOptions<'pie'>;
-
   return (
-    <div style={{ width: '320px', height: '320xp' }}>
-      <Pie data={chartData} options={options} />
-    </div>
+    <Card variant="outlined">
+      <Pie data={chartData} />
+    </Card>
   );
 }

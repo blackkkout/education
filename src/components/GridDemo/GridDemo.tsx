@@ -29,7 +29,12 @@ const columns: GridColDef[] = [
   },
   {
     field: 'stargazersCount',
-    headerName: 'Stars count',
+    headerName: 'Stars',
+    flex: 1,
+  },
+  {
+    field: 'forksCount',
+    headerName: 'Forks',
     flex: 1,
   },
 ];
@@ -113,9 +118,8 @@ export function GridDemo() {
             id: edge.node.id,
             name: edge.node.name,
             updatedAt: formatUpdatedAt(edge.node.updatedAt),
-            stargazersCount: formatStargazersCount(
-              edge.node.stargazers.totalCount,
-            ),
+            stargazersCount: formatCount(edge.node.stargazers.totalCount),
+            forksCount: formatCount(edge.node.forkCount),
           };
       })
     : [];
@@ -190,6 +194,6 @@ function formatUpdatedAt(date: string) {
   });
 }
 
-function formatStargazersCount(count: number) {
+function formatCount(count: number) {
   return count.toLocaleString('en-US').replace(/,/g, ' ');
 }

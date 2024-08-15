@@ -9,6 +9,7 @@ export const searchMostStarredRepos = graphql(/* GraphQL */ `
           ... on Repository {
             id
             name
+            forkCount
             stargazers {
               totalCount
             }

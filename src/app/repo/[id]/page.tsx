@@ -16,6 +16,7 @@ import ArrowBackIcon from '@mui/icons-material/ArrowBack';
 import { getRepoById } from '@/api/getRepoById';
 import { isRepo } from '@/lib/isRepo';
 import { LanguageChart } from '@/components/LanguageChart';
+import { Grid } from '@mui/material';
 
 export default function RepoPage({
   params: { id },
@@ -35,38 +36,42 @@ export default function RepoPage({
   }
 
   return (
-    <>
-      <Box>
-        <IconButton onClick={() => router.back()}>
-          <ArrowBackIcon />
-        </IconButton>
-      </Box>
-      <Typography variant="h4" color="primary.main">
-        {data.node.name}
-      </Typography>
-      <Stack spacing={1}>
-        <Stack direction="row" alignItems="center" spacing={1}>
-          <Chip
-            color="primary"
-            icon={<StarIcon />}
-            label={data.node.stargazerCount}
-          />
-          <Chip
-            color="primary"
-            avatar={
-              <Avatar
-                alt={`Repository icon for ${data.node.name}`}
-                src={data.node.owner.avatarUrl}
-              />
-            }
-            label={data.node.owner.login}
-            variant="outlined"
-          />
+    <Grid container spacing={2}>
+      <Grid item xs={12} md={8}>
+        <Box>
+          <IconButton onClick={() => router.back()}>
+            <ArrowBackIcon />
+          </IconButton>
+        </Box>
+        <Typography variant="h4" color="primary.main">
+          {data.node.name}
+        </Typography>
+        <Stack spacing={1}>
+          <Stack direction="row" alignItems="center" spacing={1}>
+            <Chip
+              color="primary"
+              icon={<StarIcon />}
+              label={data.node.stargazerCount}
+            />
+            <Chip
+              color="primary"
+              avatar={
+                <Avatar
+                  alt={`Repository icon for ${data.node.name}`}
+                  src={data.node.owner.avatarUrl}
+                />
+              }
+              label={data.node.owner.login}
+              variant="outlined"
+            />
+          </Stack>
+          <Typography color="grey.700">{data.node.description}</Typography>
         </Stack>
-        <Typography color="grey.700">{data.node.description}</Typography>
-      </Stack>
-      <LanguageChart owner={data.node.owner.login} name={data.node.name} />
-    </>
+      </Grid>
+      <Grid item xs={12} md={4}>
+        <LanguageChart owner={data.node.owner.login} name={data.node.name} />
+      </Grid>
+    </Grid>
   );
 }
 
