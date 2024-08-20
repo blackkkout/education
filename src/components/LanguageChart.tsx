@@ -4,14 +4,7 @@ import Skeleton from '@mui/material/Skeleton';
 import Card from '@mui/material/Card';
 
 import { getLanguagesByOwner } from '@/api/getLanguagesByOwner';
-import {
-  ArcElement,
-  Chart,
-  ChartData,
-  ChartOptions,
-  Legend,
-  Tooltip,
-} from 'chart.js';
+import { ArcElement, Chart, ChartData, Legend, Tooltip } from 'chart.js';
 
 Chart.register(ArcElement, Tooltip, Legend);
 
